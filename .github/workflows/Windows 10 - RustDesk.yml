@@ -1,4 +1,4 @@
-name: Linux RDP Tunnel with Playit (Binary Method)
+name: Linux RDP Tunnel with Playit
 
 on:
   workflow_dispatch:
@@ -20,11 +20,13 @@ jobs:
       run: |
         echo 'runner:p@ssw0rd!' | sudo chpasswd
 
-    - name: Download Playit Binary
+    - name: Install Playit from official repo
       run: |
-        wget https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-linux-amd64 -O playit
-        chmod +x playit
+        curl -SsL https://playit-cloud.github.io/ppa/key.gpg | gpg --dearmor | sudo tee /etc/apt/trusted.gpg.d/playit.gpg >/dev/null
+        echo "deb [signed-by=/etc/apt/trusted.gpg.d/playit.gpg] https://playit-cloud.github.io/ppa/data ./" | sudo tee /etc/apt/sources.list.d/playit-cloud.list
+        sudo apt update
+        sudo apt install -y playit
 
-    - name: Run Playit with stdin secret
+    - name: Run Playit with Auth Key
       run: |
-        echo "playit-auth:7926284faf370476c927d1b4e0a8204e808c4fa9d1088f3d20fc645056b40004" | ./playit
+        playit --secret 7926284faf370476c927d1b4e0a8204e808c4fa9d1088f3d20fc645056b40004
