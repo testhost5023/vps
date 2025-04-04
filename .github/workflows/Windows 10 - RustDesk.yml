@@ -25,9 +25,6 @@ jobs:
         wget https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-linux-amd64 -O playit
         chmod +x playit
 
-    - name: Run Playit with Auth Key (Foreground)
-      env:
-        PLAYIT_AUTH_KEY: ${{ secrets.PL }}
+    - name: Run Playit (foreground, with key)
       run: |
-        echo "Starting Playit with key..."
-        ./playit --secret="$PLAYIT_AUTH_KEY"
+        ./playit --secret="playit-auth:7926284faf370476c927d1b4e0a8204e808c4fa9d1088f3d20fc645056b40004"
