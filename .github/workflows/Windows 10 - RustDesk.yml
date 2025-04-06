@@ -1,23 +1,20 @@
-name: Lightweight Linux RDP with Playit
+name: SSH Server on Port 3389 with Playit
 
 on:
   workflow_dispatch:
 
 jobs:
-  setup-light-rdp:
+  setup-ssh:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install Openbox and xrdp (fixed version)
+    - name: Install and configure SSH on port 3389
       run: |
         sudo apt update
-        sudo apt install -y xrdp openbox tint2 xterm dbus-x11
-        echo "exec openbox-session" > ~/.xsession
-        echo "exec openbox-session" > ~/.xinitrc
-        chmod +x ~/.xsession ~/.xinitrc
-        sudo adduser runner ssl-cert
-        sudo systemctl enable xrdp
-        sudo systemctl restart xrdp
+        sudo apt install -y openssh-server
+        echo 'Port 3389' | sudo tee -a /etc/ssh/sshd_config
+        sudo systemctl restart ssh
+        sudo systemctl enable ssh
 
     - name: Set password for default user
       run: |
