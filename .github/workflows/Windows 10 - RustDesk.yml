@@ -1,18 +1,18 @@
-name: Linux RDP Tunnel with Playit
+name: Lightweight Linux RDP with Playit
 
 on:
   workflow_dispatch:
 
 jobs:
-  setup-rdp-tunnel:
+  setup-light-rdp:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install XFCE and xrdp
+    - name: Install Openbox and xrdp
       run: |
         sudo apt update
-        sudo apt install -y xrdp xfce4 xfce4-goodies
-        echo "xfce4-session" > ~/.xsession
+        sudo apt install -y xrdp openbox tint2 xterm
+        echo "openbox-session" > ~/.xsession
         sudo systemctl enable xrdp
         sudo systemctl start xrdp
 
