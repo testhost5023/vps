@@ -8,13 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Install Openbox and xrdp
+    - name: Install Openbox and xrdp (fixed version)
       run: |
         sudo apt update
-        sudo apt install -y xrdp openbox tint2 xterm
-        echo "openbox-session" > ~/.xsession
+        sudo apt install -y xrdp openbox tint2 xterm dbus-x11
+        echo "exec openbox-session" > ~/.xsession
+        echo "exec openbox-session" > ~/.xinitrc
+        chmod +x ~/.xsession ~/.xinitrc
+        sudo adduser runner ssl-cert
         sudo systemctl enable xrdp
-        sudo systemctl start xrdp
+        sudo systemctl restart xrdp
 
     - name: Set password for default user
       run: |
