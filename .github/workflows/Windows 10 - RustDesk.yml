@@ -15,11 +15,13 @@ jobs:
         sudo systemctl enable xrdp
         sudo systemctl start xrdp
 
-    - name: Set password for ubuntu user
+    - name: Create a user for RDP
       run: |
-        echo "ubuntu:123456" | sudo chpasswd
+        sudo adduser --disabled-password --gecos "" myuser
+        echo "myuser:123456" | sudo chpasswd
+        sudo usermod -aG sudo myuser
 
-    - name: Download and Run Playit Tunnel
+    - name: Download and Run Playit
       run: |
         curl -L https://github.com/playit-cloud/playit-agent/releases/download/v0.15.26/playit-linux-amd64 -o playit
         chmod +x playit
